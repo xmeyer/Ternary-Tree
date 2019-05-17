@@ -1,0 +1,58 @@
+class TernaryTree(object):
+    def __init__(self, value = None):
+        self.value = value
+        self.left = None
+        self.right = None
+        self.center = None
+
+    def insert_node(self, new_value):
+        if new_value < self.value:
+            if self.left == None:
+                self.left = TernaryTree(new_value)
+            else:
+                self.left.insert_node(new_value)
+        elif new_value == self.value:
+            if self.center == None:
+                self.center = TernaryTree(new_value)
+            else:
+                self.center.insert_node(new_value)
+        else:
+            if self.right == None:
+                self.right = TernaryTree(new_value)
+            else:
+                self.right.insert_node(new_value)
+
+    def generate_tree(self, L):
+        self.value = L[0]
+        for val in L[1:]:
+            self.insert_node(val)
+
+
+    def traverse_LMRW(self):
+        if self.left != None:
+            self.left.traverse_LMRW()
+        if self.center != None:
+            self.center.traverse_LMRW()
+        if self.right != None:
+            self.right.traverse_LMRW()
+        print(self.value)
+
+    def leaf_count(self):
+        count = 0
+        if self.left is None and self.center is None and self.right is None:
+            return 1
+        if self.left is not None:
+            count += self.left.leaf_count()
+        if self.center is not None:
+            count += self.center.leaf_count()
+        if self.right is not None:
+            count += self.right.leaf_count()
+        return count
+
+def main():
+    L = [ 4, 1, 2, 2, 3, 1, 0, 4, 6, 5, 6, 4]
+    T = TernaryTree()
+    T.generate_tree(L)
+    print('Traverse LMRW:'),T.traverse_LMRW()
+    print('Leaf Count:', T.leaf_count())
+main()
